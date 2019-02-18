@@ -54,7 +54,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-  throw new Error('Not implemented');
+  return arr.concat(arr);
 }
 
 
@@ -271,10 +271,9 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-  throw new Error('Not implemented');
-  // if(arr.length === 0) return [];
-  // const str = arr.map((elem,index) => elem.toString().repeat(index + 1)).join('');
-  // console.log(Array.prototype.join.call(str).split(','));
+  const preResult = [].concat(arr.map(item => 
+    new Array(arr.indexOf(item) + 1).fill(item)));
+  return [].concat(...preResult);
 }
 
 
@@ -327,9 +326,8 @@ function getPositivesCount(arr) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(arr) {
-  // const map = {'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9 };
-  // arr.map(item => map.find
-  throw new Error('Not implemented');
+  const m = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']; //eslint-disable-line
+  return arr.map(item => m.indexOf(item)).sort((a, b) => a - b).map(item => m[item]);  //eslint-disable-line
 }
 
 /**
@@ -568,7 +566,7 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  throw new Error('Not implemented');
+  return [].concat(...arr.map(childrenSelector));
 }
 
 
@@ -585,6 +583,9 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
+  // console.log(indexes.reduce((sum, current) => sum + current));
+  // return [].concat(...arr)[indexes.reduce((sum, current) => sum + current)];
+  // return arr.flat(indexes.length - 1)[indexes.reduce((sum, current) => sum + current)];
   throw new Error('Not implemented');
 }
 
