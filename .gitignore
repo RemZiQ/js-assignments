@@ -36,3 +36,9 @@ node_modules
 # Editors crap
 .vscode
 .idea
+
+# Part_1
+task/01-strings-tasks.js
+task/02-numbers-tasks.js
+task/03-date-tasks.js
+task/04-arrays-tasks.js
