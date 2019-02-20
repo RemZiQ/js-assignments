@@ -73,7 +73,7 @@ function getAverage(value1, value2) {
  *   (4, 2) (1, 6) => 5
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  return Math.hypot(x2 - x1, y2 - y1);
 }
 
 /**
@@ -114,7 +114,7 @@ function getLinearEquationRoot(a, b) {
 // eslint require max length of line 80 chars
 // tests require only 1 line
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-  return Math.acos((x1 * x2 + y1 * y2) / (Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2)) * Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2)))); // eslint-disable-line
+  return Math.acos((x1 * x2 + y1 * y2) / Math.hypot(x1, y1) / Math.hypot(x2, y2)); // eslint-disable-line
 }
 
 /**
@@ -130,7 +130,7 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
  *     0     => 0
  */
 function getLastDigit(value) {
-  return +value.toString().split('').pop();
+  return value % 10;
 }
 
 
@@ -163,7 +163,7 @@ function parseNumberFromString(value) {
  *   1,2,3   => 3.741657386773941
  */
 function getParallelipidedDiagonal(a, b, c) {
-  return Math.sqrt(a * a + b * b + c * c);
+  return Math.hypot(a, b, c);
 }
 
 /**

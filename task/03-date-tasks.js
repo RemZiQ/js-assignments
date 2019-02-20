@@ -55,7 +55,8 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-  return (date.getFullYear() % 4 === 0) && (date.getFullYear() % 100 !== 0) || (date.getFullYear() % 400 === 0); // eslint-disable-line
+  const year = date.getFullYear();
+  return (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
 }
 
 
@@ -98,7 +99,7 @@ function timeSpanToString(startDate, endDate) {
 // task about analog watch, it`s reason for second string of function.
 // we always need only acute angle, it`s reason for seventh string.
 function angleBetweenClockHands(date) {
-  let hours = +date.toISOString().substring(11, 13);
+  let hours = date.getUTCHours();
   if (hours >= 12) hours -= 12;
   const hoursAngle = (0.5 * (hours * 60 + date.getMinutes()));
   const minutesAngle = 6 * date.getMinutes();

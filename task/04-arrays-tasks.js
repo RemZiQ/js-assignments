@@ -102,7 +102,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-  return arr.filter(elem => !!elem);
+  return arr.filter(elem => elem);
 }
 
 /**
@@ -234,10 +234,10 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-// map(elem = summ elements from arr[0] to current)
+// test require 2 lines of code
 function getMovingSum(arr) {
-  return arr.map((elem, index) =>
-    arr.slice(0, index + 1).reduce((sum, current) => sum + current));
+  const resultArray = [];
+  arr.reduce((summ, current, index) => resultArray[index] = summ + current, 0); return resultArray; //eslint-disable-line
 }
 
 /**
@@ -271,9 +271,8 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-  const preResult = [].concat(arr.map(item => 
-    new Array(arr.indexOf(item) + 1).fill(item)));
-  return [].concat(...preResult);
+  return arr.reduce((pre, current, index) => 
+    new Array().concat(pre, new Array(index + 1).fill(current)), []);
 }
 
 
@@ -327,7 +326,7 @@ function getPositivesCount(arr) {
  */
 function sortDigitNamesByNumericOrder(arr) {
   const m = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']; //eslint-disable-line
-  return arr.map(item => m.indexOf(item)).sort((a, b) => a - b).map(item => m[item]);  //eslint-disable-line
+  return arr.sort((a, b) => m.indexOf(a) - m.indexOf(b));
 }
 
 /**
@@ -343,7 +342,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-  if(arr.length === 0) return 0; return arr.reduce((sum, current) => sum + current ); //eslint-disable-line
+  return arr.reduce((sum, current) => sum + current, 0); //eslint-disable-line
 }
 
 /**

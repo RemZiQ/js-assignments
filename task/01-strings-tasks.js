@@ -200,10 +200,12 @@ function extractEmails(str) {
  */
 // eslint require max linelength 80 chars
 // test require max 4 lines of code
-
+// hard to read. All what can do with that requirements
 function getRectangleString(width, height) {
-// eslint-disable-next-line
-  return String.fromCharCode(9484) + String.fromCharCode(9472).repeat(width - 2) + String.fromCharCode(9488) + '\n' +(String.fromCharCode(9474) + ' '.repeat(width - 2) + String.fromCharCode(9474) + '\n').repeat(height - 2) + String.fromCharCode(9492) + String.fromCharCode(9472).repeat(width - 2) + String.fromCharCode(9496) + '\n';
+  const f = String.fromCharCode;
+  return f(9484) + f(9472).repeat(width - 2) + f(9488) + '\n' +(f(9474) + 
+  ' '.repeat(width - 2) + f(9474) + '\n').repeat(height - 2) + f(9492)
+   + f(9472).repeat(width - 2) + f(9496) + '\n';
 }
 
 
@@ -224,8 +226,9 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-  return str.replace(/[a-zA-Z]/g, function(c){
-    return String.fromCharCode((c<='Z'?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);
+  return str.replace(/[a-zA-Z]/g, c => {
+    return String.fromCharCode((c <= 'Z' ? 90 : 122) 
+      >= (c = c.charCodeAt(0) + 13) ? c: c-26);
   });
 }
 
