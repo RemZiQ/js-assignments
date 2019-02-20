@@ -45,7 +45,11 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-  throw new Error('Not implemented');
+  let result = 1;
+  for (let i = 1; i < n + 1; i += 1){
+    result *= i; 
+  }
+  return result;
 }
 
 
@@ -61,8 +65,9 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
+// sum of arithmetic progression
 function getSumBetweenNumbers(n1, n2) {
-  throw new Error('Not implemented');
+  return (n1 + n2) / 2 * (n2 - n1 + 1);
 }
 
 
@@ -82,7 +87,7 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a, b, c) {
-  throw new Error('Not implemented');
+  return a < b + c && b < a + c && c < b + a; 
 }
 
 
@@ -150,7 +155,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  throw new Error('Not implemented');
+  // eslint-disable-next-line
+  return Math.hypot(circle.center.x - point.x, circle.center.y - point.y) < circle.radius; 
 }
 
 
@@ -166,7 +172,12 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  throw new Error('Not implemented');
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charAt(i);
+    if (str.indexOf(c) === i && str.indexOf(c, i + 1) === -1) {
+      return c;
+    }
+  } return null;
 }
 
 
