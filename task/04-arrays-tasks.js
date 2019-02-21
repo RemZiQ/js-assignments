@@ -473,10 +473,10 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  return new Array(n).fill(0).map((item, indexMainArray) => {
-    return new Array(n).fill(0).map((item, index) => {
-      return 1 - Math.min(Math.abs(indexMainArray - index), 1);
-    });
+  return new Array(n).fill(new Array(n).fill(0)).map((item, index) => {
+    const newArray = [...item]
+    newArray[index] = 1;
+    return newArray;
   });
 }
 
