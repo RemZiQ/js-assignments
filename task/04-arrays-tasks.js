@@ -234,11 +234,6 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-// test require 2 lines of code
-// const resultArray = [];
-// arr.reduce((summ, current, index) => resultArray[index] = summ + current, 0);
-// return resultArray; //eslint-disable-line
-//return previous.concat(previous[index - 1] + current || Number(previous) + current);
 function getMovingSum(arr) {
   return arr.reduce((previous, current, index) =>
     !previous.length ? [current] : [...previous, previous[index - 1] + current], []); //eslint-disable-line
