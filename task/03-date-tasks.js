@@ -21,7 +21,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-  throw new Error('Not implemented');
+  return new Date(value);
 }
 
 /**
@@ -36,7 +36,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-  throw new Error('Not implemented');
+  return new Date(value);
 }
 
 
@@ -55,7 +55,8 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-  throw new Error('Not implemented');
+  const year = date.getFullYear();
+  return (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
 }
 
 
@@ -75,7 +76,8 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-  throw new Error('Not implemented');
+  const date = new Date(+endDate - +startDate);
+  return date.toISOString().substring(11, 23); 
 }
 
 
@@ -93,8 +95,18 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
+// can`t use getHours() becouse that method returns local time hours.
+// task about analog watch, it`s reason for second string of function.
+// we always need only acute angle, it`s reason for seventh string.
 function angleBetweenClockHands(date) {
-  throw new Error('Not implemented');
+  let hours = date.getUTCHours();
+  if (hours >= 12) hours -= 12;
+  const hoursAngle = (0.5 * (hours * 60 + date.getMinutes()));
+  const minutesAngle = 6 * date.getMinutes();
+  let angle = hoursAngle >= minutesAngle ? hoursAngle - minutesAngle 
+    : minutesAngle - hoursAngle;
+  if(angle > 180) angle -= 180;
+  return angle * Math.PI / 180;
 }
 
 module.exports = {
