@@ -29,7 +29,10 @@
  *
  */
 function getFizzBuzz(num) {
-  throw new Error('Not implemented');
+  if(!(num % 15)) return `FizzBuzz`;
+  if(!(num % 5)) return 'Buzz';
+  if(!(num % 3)) return 'Fizz';
+  return num;
 }
 
 
@@ -226,9 +229,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-  // console.log(Array.prototype.join.call(str).split(',').reverse().join(',').replace(/[,]/g, ''));
-  // return Array.prototype.join.call(str).split(',').reverse().join(',').replace(',', '');
-  throw new Error('Not implemented');
+  return str.split('').reverse().join('');
 }
 
 
@@ -245,7 +246,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-  throw new Error('Not implemented');
+  return num.toString().split('').reverse().join('');
 }
 
 
@@ -289,7 +290,8 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-  throw new Error('Not implemented');
+  const result = num.toString().split('').reduce((a, b) => +a + +b);
+  return result > 9 ? result.toString().split('').reduce((a, b) => +a + +b) : result;  //eslint-disable-line
 }
 
 
@@ -315,6 +317,12 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
+  // const result = str;
+  // console.log('1', result)
+  // result.replace(/\{\}|\[\]|\(\)|<>/, '');
+  // result.replace(/\[\]/, ' ');
+  // console.log(new RegExp('\\{\\}|\\[\\]|\\(\\)|<>'));
+  // console.log('2', result);
   throw new Error('Not implemented');
 }
 
@@ -350,8 +358,50 @@ function isBracketsBalanced(str) {
  *   Date('2000-01-01 01:00:00.100'), Date('2015-01-02 03:00:05.000')  => '15 years ago'
  *
  */
+// didn`t use new Data(delta * 1000).methods() becouse 
+// test require millisecond accuracy
 function timespanToHumanString(startDate, endDate) {
-  throw new Error('Not implemented');
+  const delta = (+endDate - +startDate) / 1000;
+  if(delta > 46656000){
+    return `${Math.round(delta / 31104000)} years ago`;
+  }
+  if(delta > 29808000){
+    return `a year ago`;
+  }
+  if(delta > 5184000){
+    return `${Math.round(delta / 2592000)} months ago`;
+  }
+  if(delta > 3888000){
+    return `2 months ago`;
+  }
+  if(delta > 2160000){
+    return `a month ago`;
+  }
+  if(delta > 129600){
+    return `${Math.round((delta - 0.001) / 86400)} days ago`;
+  }
+  if(delta > 79200){
+    return `a day ago`;
+  }
+  if(delta > 7200){
+    return `${Math.round((delta - 0.001) / 3600)} hours ago`;
+  }
+  if(delta > 5400){
+    return `2 hours ago`;
+  }
+  if(delta > 2700){
+    return `an hour ago`;
+  }
+  if(delta > 120){
+    return `${Math.floor(delta / 60)} minutes ago`;
+  }
+  if(delta > 90){
+    return `2 minutes ago`;
+  }
+  if(delta > 45){
+    return `a minute ago`;
+  }
+  return `a few seconds ago`;
 }
 
 
@@ -376,7 +426,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-  throw new Error('Not implemented');
+  return num.toString(n);
 }
 
 
