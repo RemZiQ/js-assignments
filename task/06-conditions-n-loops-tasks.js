@@ -127,7 +127,11 @@ function isTriangle(a, b, c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  throw new Error('Not implemented');
+  if(rect1.left > rect2.left + rect2.width ||
+     rect2.left > rect1.left + rect1.width) return false;
+  if(rect1.top + rect1.height < rect2.top ||
+     rect2.top + rect2.height < rect1.top) return false;
+  return true;
 }
 
 
@@ -271,8 +275,21 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-  throw new Error('Not implemented');
+  const cnnStr = ccn.toString();
+  let result = 0;
+  for(let i = 0; i < cnnStr.length; i += 1){
+    let current = +cnnStr[i];
+    if ((cnnStr.length - i) % 2 === 0) {
+      current = current * 2;
+      if (current > 9) {
+        current = current - 9;
+      }
+    }
+    result += current;
+  }
+  return result % 10 === 0;
 }
+
 
 
 /**
@@ -317,13 +334,11 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  // const result = str;
-  // console.log('1', result)
-  // result.replace(/\{\}|\[\]|\(\)|<>/, '');
-  // result.replace(/\[\]/, ' ');
-  // console.log(new RegExp('\\{\\}|\\[\\]|\\(\\)|<>'));
-  // console.log('2', result);
-  throw new Error('Not implemented');
+  let result = str;
+  while ( result.match(/\{\}|\[\]|\(\)|<>/)){
+    result = result.replace(/\{\}|\[\]|\(\)|<>/, '');
+  }
+  return result.length === 0;
 }
 
 
@@ -443,8 +458,31 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  throw new Error('Not implemented');
+  // take array(of all paths) of arrays(for each path with '/' like separator)
+  // sort array, because we need only the shortest path for algorithm 
+  // [ '1/2/3/4', '1/2/3', '1,2,10,4'] => [[1, 2, 3], [1, 2, 3, 4], [1, 2, 10, 4]]
+  const splitPath = pathes.map(elem => elem.split('/')).sort((a, b) => a - b);
+  // take the shortest path and map() elemments to array(of each elemment of paths)
+  // [ [1, 1, 1] [2, 2, 2] [3, 3, 10]]
+  const neededPathes = splitPath[0].map((elem, index) => {
+    const arr = [];
+    splitPath.forEach(array => {
+      arr.push(array[index]);
+    });
+    return arr;
+  });
+  // make sure that all arrays of array have the same element of paths
+  // [ [1, 1, 1] [2, 2, 2] [3, 3, 10]] => [ [1, 1, 1] [2, 2, 2]]
+  // get path with each first element of arrays of array with join '/'
+  // [ [1, 1, 1] [2, 2, 2]] => ['1/', '2/']
+  // return array.join()
+  //[ '1/', '2/'] => '1/2/'
+  // @pathes always begin from '/', thats why function always will return
+  // '/path' or ''.
+  return  neededPathes.filter( elem => elem.every( e => e === elem[0]))
+    .map( elem => elem[0] + '/').join('');
 }
+
 
 
 /**
@@ -466,7 +504,18 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  throw new Error('Not implemented');
+  const rowsA = m1.length, colsA = m1[0].length,
+    rowsB = m2.length, colsB = m2[0].length, result = [];
+  if (colsA !== rowsB) return false;
+  for (let i = 0; i < rowsA; i += 1) result[i] = [];
+  for (let k = 0; k < colsB; k += 1){ 
+    for (let m = 0; m < rowsA; m += 1){
+      let t = 0;
+      for (let j = 0; j < rowsB; j += 1) t += m1[m][j] * m2[j][k];
+      result[m][k] = t;
+    }
+  } 
+  return result;
 }
 
 
@@ -501,7 +550,40 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  throw new Error('Not implemented');
+  const a = position[0];
+  const b = position[1];
+  const c = position[2];
+  const row1 = position.map(elem => elem[0]);
+  const row2 = position.map(elem => elem[1]);
+  const row3 = position.map(elem => elem[2]);
+  const diag1 = position.map((elem, index) => elem[index]);
+  const diag2 = position.map((elem, index) => elem[2 - index]);
+
+  if(a.length === 3 && !a.includes() && 
+    a.every((elem, index, arr ) => arr[0] === elem )) return a[0];
+
+  if(b.length === 3 && !b.includes() &&
+    b.every((elem, index, arr ) => arr[0] === elem )) return b[0];
+
+  if(c.length === 3 && !c.includes() &&
+    c.every((elem, index, arr ) => arr[0] === elem )) return c[0];
+
+  if(row1.length === 3 && !row1.includes() &&
+    row1.every((elem, index, arr ) => arr[0] === elem )) return row1[0];
+
+  if(row2.length === 3 && !row2.includes() &&
+    row2.every((elem, index, arr ) => arr[0] === elem )) return row2[0];
+
+  if(row3.length === 3 && !row3.includes() &&
+    row3.every((elem, index, arr ) => arr[0] === elem )) return row3[0];
+
+  if(diag1.length === 3 && !diag1.includes() &&
+    diag1.every((elem, index, arr ) => arr[0] === elem )) return diag1[0];
+
+  if(diag2.length === 3 && !diag2.includes() &&
+    diag2.every((elem, index, arr ) => arr[0] === elem )) return diag2[0];
+
+  return undefined;
 }
 
 module.exports = {
