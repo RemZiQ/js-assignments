@@ -32,7 +32,16 @@
  *
  */
 function* get99BottlesOfBeer() {
-  throw new Error('Not implemented');
+  yield `99 bottles of beer on the wall, 99 bottles of beer.`;
+  for (let i = 98; i > 1; i--){
+    yield `Take one down and pass it around, ${i} bottles of beer on the wall.`;
+    yield `${i} bottles of beer on the wall, ${i} bottles of beer.`;
+  }
+  yield `Take one down and pass it around, 1 bottle of beer on the wall.`;
+  yield `1 bottle of beer on the wall, 1 bottle of beer.`;
+  yield 'Take one down and pass it around, no more bottles of beer on the wall.'; //eslint-disable-line
+  yield 'No more bottles of beer on the wall, no more bottles of beer.';
+  yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -46,7 +55,20 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-  throw new Error('Not implemented');
+  let index = 0;
+  function fibonacciElement(n){
+    let a = 0;
+    let b = n === 0 ? 0 : 1;
+    for(let i = 2; i <= n; i++){
+      const c = a + b;
+      a = b;
+      b = c;
+    }
+    return b;
+  }
+  while(true){
+    yield (fibonacciElement(index++));
+  }
 }
 
 
@@ -125,7 +147,22 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-  throw new Error('Not implemented');
+  const gen1 = source1();
+  const gen2 = source2();
+  let current1 = gen1.next().value;
+  let current2 = gen2.next().value;
+  while(true){
+    while(current1 < current2){
+      yield current1;
+      const helper = gen1.next().value;
+      current1 = helper === undefined ? Infinity : helper;
+    }
+    while(current2 < current1){
+      yield current2;
+      const helper = gen2.next().value;
+      current2 = helper === undefined ? Infinity : helper;
+    }
+  }
 }
 
 module.exports = {
