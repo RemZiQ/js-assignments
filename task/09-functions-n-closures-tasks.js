@@ -112,7 +112,7 @@ function retry(func, attempts) {
   //     try{
   //       return func();
   //     }
-  //     catch(err){};
+  //     catch(e){};
   //   }
   // }
   throw new Error('Not implemented');
@@ -142,10 +142,15 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
+// require 7 lines of code
 function logger(func, logFunc) {
-//   console.log('firstOne___', ...arguments);
-//  return () => console.log(...arguments);
-  throw new Error('Not implemented');
+  return function() {
+    const args = [...arguments];
+    const strArgs = JSON.stringify(args).slice(1,-1);
+    logFunc(`${func.name}(${strArgs}) starts`);
+    const resukt = func.apply(undefined, args);
+    logFunc(`${func.name}(${strArgs}) ends`);
+    return resukt;}
 }
 
 
