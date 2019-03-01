@@ -64,11 +64,9 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-  // const params = [...arguments];
-  // for (let i of params){
-
-  // }
-  throw new Error('Not implemented');
+  const result = new Array(Math.abs(arguments.length - 3))
+    .fill(0).concat(...arguments);
+  return x => result[0] * x * x + result[1] * x + result[2];
 }
 
 
@@ -87,7 +85,8 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-  throw new Error('Not implemented');
+  const result = func();
+  return () => result;
 }
 
 
@@ -107,9 +106,9 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  // console.log(func.toString());
   // return () => {
-  //   while(attempts-- >= 0){
+  //   while(attempts-- > 0){
+  //     console.log(attempts);
   //     try{
   //       return func();
   //     }
@@ -144,6 +143,8 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
+//   console.log('firstOne___', ...arguments);
+//  return () => console.log(...arguments);
   throw new Error('Not implemented');
 }
 
@@ -162,8 +163,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-  // console.log(fn.toString());
-  throw new Error('Not implemented');
+  return fn.bind(undefined, ...[...arguments].slice(1));
 }
 
 
