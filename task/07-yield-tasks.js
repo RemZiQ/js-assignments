@@ -102,7 +102,32 @@ function* getFibonacciSequence() {
  *  depthTraversalTree(node1) => node1, node2, node3, node4, node5, node6, node7, node8
  *
  */
+// function* depthTraversalTree(root) {
+  // function getNodes(obj){
+  //   for(let key in obj){
+  //     if(key === "n") stack.push({n: obj[key]});
+  //     if(key === "children"){
+  //       obj[key].forEach(elem => getNodes(elem));
+  //     }
+  //   }
+  // }
+  // getNodes(root);
+  // stack = stack.reverse();
+  // while(stack.length){
+  //   let n = stack.pop();
+  //   yield n;
+  // }
+// }
 function* depthTraversalTree(root) {
+  // const arr = [root];
+  // let stack = [];
+  // function getNode(array){
+  //   if(array[0] === "n") stack.push({n: array[0].n})
+  //   if(array[])
+  // }
+  // while(stack.length){
+
+  // }
   throw new Error('Not implemented');
 }
 
