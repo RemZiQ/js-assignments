@@ -103,32 +103,49 @@ function* getFibonacciSequence() {
  *
  */
 // function* depthTraversalTree(root) {
-  // function getNodes(obj){
-  //   for(let key in obj){
-  //     if(key === "n") stack.push({n: obj[key]});
-  //     if(key === "children"){
-  //       obj[key].forEach(elem => getNodes(elem));
-  //     }
-  //   }
-  // }
-  // getNodes(root);
-  // stack = stack.reverse();
-  // while(stack.length){
-  //   let n = stack.pop();
-  //   yield n;
-  // }
+// function getNodes(obj){
+//   for(let key in obj){
+//     if(key === "n") stack.push({n: obj[key]});
+//     if(key === "children"){
+//       obj[key].forEach(elem => getNodes(elem));
+//     }
+//   }
+// }
+// getNodes(root);
+// stack = stack.reverse();
+// while(stack.length){
+//   let n = stack.pop();
+//   yield n;
+// }
 // }
 function* depthTraversalTree(root) {
-  // const arr = [root];
-  // let stack = [];
-  // function getNode(array){
-  //   if(array[0] === "n") stack.push({n: array[0].n})
-  //   if(array[])
-  // }
-  // while(stack.length){
+  let stack = [];
 
-  // }
-  throw new Error('Not implemented');
+  function traversalTree(firstLevelElements) {
+    const currRoots = [{children: firstLevelElements, i: 0}];
+    while(currRoots.length) {
+      const currRoot = currRoots[currRoots.length - 1];
+      // will only be executed when top node is read, after that  remove top node from currRoots
+      if(currRoot.i === currRoot.children.length) {
+        currRoots.length--;
+      } else {
+        const item = currRoot.children[currRoot.i++];
+        stack.push(item.n);  
+        if(item.children){
+          currRoots.push({children: item.children, i: 0});
+        }
+      }
+    }
+  }
+  
+  traversalTree([root]);
+  stack = stack.reverse();
+
+  while(stack.length){
+    // didn`t push object to stack before, because in that decision tests runs faster
+    const n = {n: stack.pop()};
+    yield n;
+  }
 }
 
 
@@ -154,7 +171,17 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-  throw new Error('Not implemented');
+  const queue = [root];
+  let i = 0;
+  while(true){
+    const currRoot = queue[i++];
+    if(!currRoot) return null;
+    if(currRoot.children){
+      currRoot.children.forEach(elem => queue.push(elem));
+    }
+    const result = {n: currRoot.n};
+    yield result;
+  }
 }
 
 
