@@ -30,7 +30,8 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-  throw new Error('Not implemented');
+  //eslint-disable-next-line
+  return new RegExp(/\{[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}\}/);
 }
 
 
@@ -52,7 +53,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-  throw new Error('Not implemented');
+  return new RegExp(/^(pi|s|r).+/);
 }
 
 
@@ -71,7 +72,8 @@ function getRegexForPitSpot() {
  * @return {RegExp}
  */
 function getRegexForIPv4() {
-  throw new Error('Not implemented');
+  //eslint-disable-next-line 
+  return new RegExp(/^(0?\d{0,2}|1\d{0,2}|2[0-4][0-9]|25[0-5])\.(0?\d{0,2}|1\d{0,2}|2[0-4][0-9]|25[0-5])\.(0?\d{0,2}|1\d{0,2}|2[0-4][0-9]|25[0-5])\.(0?\d{0,2}|1\d{0,2}|2[0-4][0-9]|25[0-5])$/);
 }
 
 
@@ -90,7 +92,7 @@ function getRegexForIPv4() {
  * @return {RegExp}
  */
 function getRegexForSSN() {
-  throw new Error('Not implemented');
+  return new RegExp(/(?!000)\d{3}-((?!00)\d{2})-(?!0000)\d{4}/);
 }
 
 
@@ -115,7 +117,8 @@ function getRegexForSSN() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
-  throw new Error('Not implemented');
+  const regex = `^(?!.*[\\s+])(?!.*[_])(?=.*[a-z]{1})(?=.*[A-Z]{1})(?=.*[\\d]{1})(.{${minLength},})$`; //eslint-disable-line
+  return new RegExp(regex);
 }
 
 module.exports = {
