@@ -106,16 +106,15 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  // return () => {
-  //   while(attempts-- > 0){
-  //     console.log(attempts);
-  //     try{
-  //       return func();
-  //     }
-  //     catch(e){};
-  //   }
-  // }
-  throw new Error('Not implemented');
+  return () => {
+    while(attempts-- > 1){
+      try{
+        return func();
+      }
+      catch(e){}   // eslint-disable-line
+    }
+    return func();
+  };
 }
 
 
