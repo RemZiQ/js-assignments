@@ -12,7 +12,11 @@
  *   'abcdefghijklmnop',  'lmnopqrstuvwxyz'  => 'abcdefghijklmnopqrstuvwxyz'
  */
 function distinctLettersString(value1, value2) {
-  throw new Error('Not implemented');
+  const arr = (value1 + value2)
+    .split('').sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+  const result = arr.filter((elem, index) =>
+    arr.indexOf(elem) === index).join('');
+  return result;
 }
 
 
@@ -29,7 +33,14 @@ function distinctLettersString(value1, value2) {
  */
 
 function lowerLetters(value) {
-  throw new Error('Not implemented');
+  const arr = value.split('').filter(elem => 
+    elem.charCodeAt(0) >= 97 && elem.charCodeAt(0) <= 122)
+    .sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+  const result = arr.reduce((acc, elem) => {
+    acc[elem] = (acc[elem] || 0) + 1;
+    return acc;
+  }, {});
+  return result;
 }
 
 /**
@@ -45,13 +56,23 @@ function lowerLetters(value) {
  * @return {string}
  *
  * @example
+ * //must be update 'a clash if KINGS' to 'a clash of KINGS'
  *    'a clash if KINGS', 'a an the of'  =>  'A Clash of Kings'
  *    'THE WIND IN THE WILLOWS', 'The In'  => 'The Wind in the Willows'
  *    'the quick brown fox'  => 'The Quick Brown Fox'
  */
 
 function titleCaseConvert(title, minorWords) {
-  throw new Error('Not implemented');
+  const arr = title.toLowerCase().split(' ');
+  const exeption = minorWords ? minorWords.toLowerCase().split(' ') : [];
+  const resultArray = arr.map(elem => {
+    if(exeption.some(exeptionElem => exeptionElem === elem)){
+      return elem;
+    }
+    return elem[0].toUpperCase().concat(elem.slice(1));
+  });
+  const result = resultArray.join(' ');
+  return result[0].toUpperCase().concat(result.slice(1));
 }
 
 /**
@@ -72,7 +93,33 @@ function titleCaseConvert(title, minorWords) {
  */
 
 function calcRPN(expr) {
-  throw new Error('Not implemented');
+  if(expr.length === 0) return 0;
+
+  const arr = expr.split(' ').map(elem => {
+    if(isFinite(elem)) return +elem;
+    return elem;
+  });
+  const checker = arr.indexOf('+') === -1 &&
+    arr.indexOf('-') === -1 &&
+    arr.indexOf('*') === -1 &&
+    arr.indexOf('/') === -1;
+
+  if(checker) return arr[arr.length - 1];
+
+  const stack = [];
+  const map = ['+', '-', '*', '/'];
+  const add = (a, b) => b + a;
+  const sub = (a, b) => b - a;
+  const multi = (a, b) => b * a;
+  const division = (a, b) => b / a;
+  const functionMap = [add, sub, multi, division];
+  for(let i = 0; i < arr.length; i += 1){
+    if(isFinite(arr[i])) stack.push(arr[i]);
+    if(!isFinite(arr[i])){
+      stack.push(functionMap[map.indexOf(arr[i])](stack.pop(), stack.pop()));
+    }
+  }
+  return stack[0];
 }
 
 module.exports = {
