@@ -22,7 +22,9 @@
  *    console.log(r.getArea());   // => 200
  */
 function Rectangle(width, height) {
-  throw new Error('Not implemented');
+  this.width = width;
+  this.height = height;
+  Rectangle.prototype.getArea = (() => this.width * this.height);
 }
 
 
@@ -37,7 +39,7 @@ function Rectangle(width, height) {
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
 function getJSON(obj) {
-  throw new Error('Not implemented');
+  return JSON.stringify(obj);
 }
 
 
@@ -53,7 +55,7 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
-  throw new Error('Not implemented');
+  return Object.assign(Object.create(proto), JSON.parse(json));
 }
 
 
@@ -112,34 +114,187 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
+// In this case we need chain. Thats why in every method 
+// we will return new object with link to classMethods.
+// Because ours chain not always ends with specific method 
+// we need to return current result when chain was end.
+// Will be used object what returns from method for saving current result.
+// For performance requirements will create ordered array(by user input) of selectors wich will
+// saved in object what returns from method.
 const cssSelectorBuilder = {
-
+  storage: {
+    firstExeption: 'Element, id and pseudo-element should' +
+      ' not occur more then one time inside the selector',
+    secondExeption: 'Selector parts should be arranged' +
+      ' in the following order:' +
+      ' element, id, class, attribute, pseudo-class, pseudo-element'
+  },
   element(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+    currentResult += `${value}`;
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('element');
+    this.checkRepeatElement(currentOrder);
+    this.checkOrder(currentOrder);
+    
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
   id(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+    currentResult += `#${value}`;
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('id');
+    this.checkRepeatID(currentOrder);
+    this.checkOrder(currentOrder);
+
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
   class(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+    currentResult += `.${value}`;
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('class');
+    this.checkOrder(currentOrder);
+
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
   attr(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('attr');
+    this.checkOrder(currentOrder);
+
+    currentResult += `[${value}]`;
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
   pseudoClass(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+    currentResult += `:${value}`;
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('pseudoClass');
+    this.checkOrder(currentOrder);
+
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
   pseudoElement(value) {
-    throw new Error('Not implemented');
-  },
+    let currentResult = '';
+    const currentOrder = [];
 
-  combine(selector1, combinator, selector2) {
-    throw new Error('Not implemented');
+    if(this.hasOwnProperty('result')){
+      currentResult = this.result;
+    }
+    currentResult += `::${value}`;
+
+    if(this.hasOwnProperty('order')){
+      currentOrder.push(...this.order);
+    }
+    currentOrder.push('pseudoElement');
+    this.checkRepeatPseudoElement(currentOrder);
+    this.checkOrder(currentOrder);
+
+    const chain = {
+      result: currentResult,
+      order: currentOrder
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
+  combine(selector1, combinator, selector2){
+    const chain = {
+      result: `${selector1.result} ${combinator} ${selector2.result}`
+    };
+    chain.__proto__ = this;
+    return chain;
+  },
+  stringify(){
+    return this.result;
+  },
+  checkRepeatElement(arr){
+    if(arr.filter(elem => elem === 'element').length > 1){
+      throw new Error(this.storage.firstExeption);
+    }
+  },
+  checkRepeatID(arr){
+    if(arr.filter(elem => elem === 'id').length > 1){
+      throw new Error(this.storage.firstExeption);
+    }
+  },
+  checkRepeatPseudoElement(arr){
+    if(arr.filter(elem => elem === 'pseudoElement').length > 1){
+      throw new Error(this.storage.firstExeption);
+    }
+  },
+  checkOrder(arr){
+    const map = ['element', 'id', 'class', 'attr', 'pseudoClass', 'pseudoElement']; //eslint-disable-line
+    const checker = arr.map(elem => map.indexOf(elem));
+    if(checker[checker.length - 1] < checker[checker.length - 2]){
+      throw new Error(this.storage.secondExeption);
+    }
   }
 };
 
