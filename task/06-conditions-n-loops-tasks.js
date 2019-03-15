@@ -377,46 +377,59 @@ function isBracketsBalanced(str) {
 // test require millisecond accuracy
 function timespanToHumanString(startDate, endDate) {
   const delta = (+endDate - +startDate) / 1000;
-  if(delta > 46656000){
-    return `${Math.round(delta / 31104000)} years ago`;
+
+  // const will be named with rounding for conditions
+  const minute = 45;
+  const oneAndHalfOfMinute = 90;
+  const twoMinutes = 120;
+  const hour = 2700;
+  const oneAndHalfOfHour = 5400;
+  const twoHours = 7200;
+  const day = 79200;
+  const oneAndHalfOfDay = 129600; 
+  const month = 2160000;
+  const oneAndHalfOfMonth = 3888000;
+  const twoMonths = 5184000;
+  const year = 29808000;
+  const oneAndHalfOfYear = 46656000;
+
+  //const without rounding for calc readable string
+  const exactlyMinute = 60;
+  const exactlyHour = 3600;
+  const exactlyDay = 86400;
+  const exactlyMonth = 2592000;
+  const exactlyYear = 31104000;
+  
+  switch(true) {
+    case delta > oneAndHalfOfYear:
+      return `${Math.round(delta / exactlyYear)} years ago`;
+    case delta > year:
+      return `a year ago`;
+    case delta > twoMonths:
+      return `${Math.round(delta / exactlyMonth)} months ago`;
+    case delta > oneAndHalfOfMonth:
+      return `2 months ago`;
+    case delta > month:
+      return `a month ago`;
+    case delta > oneAndHalfOfDay:
+      return `${Math.round((delta - 0.001) / exactlyDay)} days ago`;
+    case delta > day:
+      return `a day ago`;
+    case delta > twoHours:
+      return `${Math.round((delta - 0.001) / exactlyHour)} hours ago`;
+    case delta > oneAndHalfOfHour:
+      return `2 hours ago`;
+    case delta > hour:
+      return `an hour ago`;
+    case delta > twoMinutes:
+      return `${Math.floor(delta / exactlyMinute)} minutes ago`;
+    case delta > oneAndHalfOfMinute:
+      return `2 minutes ago`;
+    case delta > minute:
+      return `a minute ago`;
+    default:
+      return `a few seconds ago`; 
   }
-  if(delta > 29808000){
-    return `a year ago`;
-  }
-  if(delta > 5184000){
-    return `${Math.round(delta / 2592000)} months ago`;
-  }
-  if(delta > 3888000){
-    return `2 months ago`;
-  }
-  if(delta > 2160000){
-    return `a month ago`;
-  }
-  if(delta > 129600){
-    return `${Math.round((delta - 0.001) / 86400)} days ago`;
-  }
-  if(delta > 79200){
-    return `a day ago`;
-  }
-  if(delta > 7200){
-    return `${Math.round((delta - 0.001) / 3600)} hours ago`;
-  }
-  if(delta > 5400){
-    return `2 hours ago`;
-  }
-  if(delta > 2700){
-    return `an hour ago`;
-  }
-  if(delta > 120){
-    return `${Math.floor(delta / 60)} minutes ago`;
-  }
-  if(delta > 90){
-    return `2 minutes ago`;
-  }
-  if(delta > 45){
-    return `a minute ago`;
-  }
-  return `a few seconds ago`;
 }
 
 
@@ -584,6 +597,12 @@ function evaluateTicTacToePosition(position) {
     diag2.every((elem, index, arr ) => arr[0] === elem )) return diag2[0];
 
   return undefined;
+
+  // const checkRows = (elem) => {
+  //   elem.
+  // }
+  // position.forEach(elem => )
+
 }
 
 module.exports = {
