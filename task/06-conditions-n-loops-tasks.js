@@ -576,46 +576,39 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  const a = position[0];
-  const b = position[1];
-  const c = position[2];
-  const row1 = position.map(elem => elem[0]);
-  const row2 = position.map(elem => elem[1]);
-  const row3 = position.map(elem => elem[2]);
-  const diag1 = position.map((elem, index) => elem[index]);
-  const diag2 = position.map((elem, index) => elem[2 - index]);
 
-  if(a.length === 3 && !a.includes() && 
-    a.every((elem, index, arr ) => arr[0] === elem )) return a[0];
+  // check rows
+  const len = position.length;
+  for (let i = 0; i < len; i += 1){
+    if(position[i].length === len && !position[i].includes() && 
+      position[i].every((elem, index, arr ) => arr[0] === elem )){
+      return position[i][0];
+    }
+  }
 
-  if(b.length === 3 && !b.includes() &&
-    b.every((elem, index, arr ) => arr[0] === elem )) return b[0];
+  // check column
+  for (let i = 0; i < len; i += 1){
+    const currentColumn = position.map(elem => elem[i]);
+    if(currentColumn.length === len && !currentColumn.includes() &&
+      currentColumn.every((elem, index, arr ) => arr[0] === elem )){
+      return currentColumn[0];
+    }
+  }
 
-  if(c.length === 3 && !c.includes() &&
-    c.every((elem, index, arr ) => arr[0] === elem )) return c[0];
+  // check diagonals
+  // always will have only 2 diagonals
+  let counter = 0;
+  let secondCounter = len - 1;
+  const diagonals = [];
+  diagonals.push(position.map(elem => elem[counter++]));
+  diagonals.push(position.map(elem => elem[secondCounter--]));
 
-  if(row1.length === 3 && !row1.includes() &&
-    row1.every((elem, index, arr ) => arr[0] === elem )) return row1[0];
-
-  if(row2.length === 3 && !row2.includes() &&
-    row2.every((elem, index, arr ) => arr[0] === elem )) return row2[0];
-
-  if(row3.length === 3 && !row3.includes() &&
-    row3.every((elem, index, arr ) => arr[0] === elem )) return row3[0];
-
-  if(diag1.length === 3 && !diag1.includes() &&
-    diag1.every((elem, index, arr ) => arr[0] === elem )) return diag1[0];
-
-  if(diag2.length === 3 && !diag2.includes() &&
-    diag2.every((elem, index, arr ) => arr[0] === elem )) return diag2[0];
-
-  return undefined;
-
-  // const checkRows = (elem) => {
-  //   elem.
-  // }
-  // position.forEach(elem => )
-
+  for(let i = 0; i < 2; i += 1){
+    if(diagonals[i].length === len && !diagonals[i].includes() &&
+    diagonals[i].every((elem, index, arr ) => arr[0] === elem )){
+      return diagonals[i][0];
+    }
+  }
 }
 
 module.exports = {
