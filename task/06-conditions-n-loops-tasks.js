@@ -401,34 +401,47 @@ function timespanToHumanString(startDate, endDate) {
   const exactlyYear = 31104000;
   
   switch(true) {
-    case delta > oneAndHalfOfYear:
-      return `${Math.round(delta / exactlyYear)} years ago`;
-    case delta > year:
-      return `a year ago`;
-    case delta > twoMonths:
-      return `${Math.round(delta / exactlyMonth)} months ago`;
-    case delta > oneAndHalfOfMonth:
-      return `2 months ago`;
-    case delta > month:
-      return `a month ago`;
-    case delta > oneAndHalfOfDay:
-      return `${Math.round((delta - 0.001) / exactlyDay)} days ago`;
-    case delta > day:
-      return `a day ago`;
-    case delta > twoHours:
-      return `${Math.round((delta - 0.001) / exactlyHour)} hours ago`;
-    case delta > oneAndHalfOfHour:
-      return `2 hours ago`;
-    case delta > hour:
-      return `an hour ago`;
-    case delta > twoMinutes:
-      return `${Math.floor(delta / exactlyMinute)} minutes ago`;
-    case delta > oneAndHalfOfMinute:
-      return `2 minutes ago`;
-    case delta > minute:
-      return `a minute ago`;
-    default:
-      return `a few seconds ago`; 
+  case delta > oneAndHalfOfYear:
+    return `${Math.round(delta / exactlyYear)} years ago`;
+
+  case delta > year:
+    return `a year ago`;
+
+  case delta > twoMonths:
+    return `${Math.round(delta / exactlyMonth)} months ago`;
+
+  case delta > oneAndHalfOfMonth:
+    return `2 months ago`;
+
+  case delta > month:
+    return `a month ago`;
+
+  case delta > oneAndHalfOfDay:
+    return `${Math.round((delta - 0.001) / exactlyDay)} days ago`;
+
+  case delta > day:
+    return `a day ago`;
+
+  case delta > twoHours:
+    return `${Math.round((delta - 0.001) / exactlyHour)} hours ago`;
+
+  case delta > oneAndHalfOfHour:
+    return `2 hours ago`;
+
+  case delta > hour:
+    return `an hour ago`;
+
+  case delta > twoMinutes:
+    return `${Math.floor(delta / exactlyMinute)} minutes ago`;
+
+  case delta > oneAndHalfOfMinute:
+    return `2 minutes ago`;
+
+  case delta > minute:
+    return `a minute ago`;
+
+  default:
+    return `a few seconds ago`; 
   }
 }
 
