@@ -143,13 +143,12 @@ function retry(func, attempts) {
  */
 // require 7 lines of code
 function logger(func, logFunc) {
-  return function() {
-    const args = [...arguments];
-    const strArgs = JSON.stringify(args).slice(1, -1);
+  return function(...arguments) {
+    const strArgs = JSON.stringify(arguments).slice(1, -1);
     logFunc(`${func.name}(${strArgs}) starts`);
-    const resukt = func.apply(undefined, args);
+    const result =  func(...arguments);
     logFunc(`${func.name}(${strArgs}) ends`);
-    return resukt;};
+    return result;};
 }
 
 
