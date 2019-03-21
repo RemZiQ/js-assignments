@@ -55,19 +55,15 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-  let index = 0;
-  function fibonacciElement(n){
-    let a = 0;
-    let b = n === 0 ? 0 : 1;
-    for(let i = 2; i <= n; i++){
-      const c = a + b;
-      a = b;
-      b = c;
-    }
-    return b;
-  }
+  yield 0;
+  yield 1;
+  let a = 0;
+  let b = 1;
   while(true){
-    yield (fibonacciElement(index++));
+    const c = a + b;
+    a = b;
+    b = c;
+    yield c;
   }
 }
 
