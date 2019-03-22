@@ -32,7 +32,16 @@
  *
  */
 function* get99BottlesOfBeer() {
-  throw new Error('Not implemented');
+  yield `99 bottles of beer on the wall, 99 bottles of beer.`;
+  for (let i = 98; i > 1; i--){
+    yield `Take one down and pass it around, ${i} bottles of beer on the wall.`;
+    yield `${i} bottles of beer on the wall, ${i} bottles of beer.`;
+  }
+  yield `Take one down and pass it around, 1 bottle of beer on the wall.`;
+  yield `1 bottle of beer on the wall, 1 bottle of beer.`;
+  yield 'Take one down and pass it around, no more bottles of beer on the wall.'; //eslint-disable-line
+  yield 'No more bottles of beer on the wall, no more bottles of beer.';
+  yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -46,7 +55,16 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-  throw new Error('Not implemented');
+  yield 0;
+  yield 1;
+  let a = 0;
+  let b = 1;
+  while(true){
+    const c = a + b;
+    a = b;
+    b = c;
+    yield c;
+  }
 }
 
 
@@ -80,8 +98,50 @@ function* getFibonacciSequence() {
  *  depthTraversalTree(node1) => node1, node2, node3, node4, node5, node6, node7, node8
  *
  */
+// function* depthTraversalTree(root) {
+// function getNodes(obj){
+//   for(let key in obj){
+//     if(key === "n") stack.push({n: obj[key]});
+//     if(key === "children"){
+//       obj[key].forEach(elem => getNodes(elem));
+//     }
+//   }
+// }
+// getNodes(root);
+// stack = stack.reverse();
+// while(stack.length){
+//   let n = stack.pop();
+//   yield n;
+// }
+// }
 function* depthTraversalTree(root) {
-  throw new Error('Not implemented');
+  let stack = [];
+
+  function traversalTree(firstLevelElements) {
+    const currRoots = [{children: firstLevelElements, i: 0}];
+    while(currRoots.length) {
+      const currRoot = currRoots[currRoots.length - 1];
+      // will only be executed when top node is read, after that  remove top node from currRoots
+      if(currRoot.i === currRoot.children.length) {
+        currRoots.length--;
+      } else {
+        const item = currRoot.children[currRoot.i++];
+        stack.push(item.n);  
+        if(item.children){
+          currRoots.push({children: item.children, i: 0});
+        }
+      }
+    }
+  }
+  
+  traversalTree([root]);
+  stack = stack.reverse();
+
+  while(stack.length){
+    // didn`t push object to stack before, because in that decision tests runs faster
+    const n = {n: stack.pop()};
+    yield n;
+  }
 }
 
 
@@ -107,7 +167,17 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-  throw new Error('Not implemented');
+  const queue = [root];
+  let i = 0;
+  while(true){
+    const currRoot = queue[i++];
+    if(!currRoot) return null;
+    if(currRoot.children){
+      currRoot.children.forEach(elem => queue.push(elem));
+    }
+    const result = {n: currRoot.n};
+    yield result;
+  }
 }
 
 
@@ -125,7 +195,22 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-  throw new Error('Not implemented');
+  const gen1 = source1();
+  const gen2 = source2();
+  let current1 = gen1.next().value;
+  let current2 = gen2.next().value;
+  while(true){
+    while(current1 < current2){
+      yield current1;
+      const helper = gen1.next().value;
+      current1 = helper === undefined ? Infinity : helper;
+    }
+    while(current2 < current1){
+      yield current2;
+      const helper = gen2.next().value;
+      current2 = helper === undefined ? Infinity : helper;
+    }
+  }
 }
 
 module.exports = {
